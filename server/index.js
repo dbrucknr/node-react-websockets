@@ -1,7 +1,8 @@
 const express = require("express");
-const app = express();
+const config = require("./config/app");
 
-const PORT = 3000;
+const app = express();
+const PORT = config.appPort;
 
 app.get("/home", (req, res) => {
   return res.send("Home");
