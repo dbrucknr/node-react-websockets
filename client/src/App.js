@@ -3,7 +3,7 @@ import { Register } from "./components/auth/register";
 import { Messenger } from "./components/messenger/messenger";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
-import "./App.css";
+import "./App.scss";
 
 const NoPageFound = () => <div>404 Page Not Found</div>;
 
