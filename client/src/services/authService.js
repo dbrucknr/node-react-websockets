@@ -10,8 +10,21 @@ export const AuthService = {
       })
       .catch((err) => {
         console.error("Auth Service Error", err);
+        throw err;
       });
   },
-  register: (data) => {},
+  register: async (data) => {
+    console.log("register", data);
+    return api
+      .post("/register", data)
+      .then(({ data }) => {
+        api.defaults.headers["Authorization"] = `Bearer ${data.token}`;
+        return data;
+      })
+      .catch((err) => {
+        console.error("Auth Service Error", err);
+        throw err;
+      });
+  },
   logout: () => {},
 };
