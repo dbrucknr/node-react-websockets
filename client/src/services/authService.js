@@ -25,5 +25,7 @@ export const AuthService = {
         throw err;
       });
   },
-  logout: () => {},
+  logout: () => {
+    api.defaults.headers["Authorization"] = "";
+  },
 };

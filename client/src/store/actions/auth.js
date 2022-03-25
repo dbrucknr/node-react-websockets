@@ -1,5 +1,6 @@
 import { AuthService } from "../../services/authService";
 export const LOGIN = "LOGIN";
+export const LOGOUT = "LOGOUT";
 export const REGISTER = "REGISTER";
 
 export const login = (params, navigate) => async (dispatch) => {
@@ -10,6 +11,11 @@ export const login = (params, navigate) => async (dispatch) => {
       navigate("/");
     })
     .catch((err) => console.error(err));
+};
+
+export const logout = () => (dispatch) => {
+  AuthService.logout();
+  dispatch({ type: LOGOUT });
 };
 
 export const register = (params, navigate) => async (dispatch) => {
