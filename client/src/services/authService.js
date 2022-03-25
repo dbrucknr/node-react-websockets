@@ -14,7 +14,6 @@ export const AuthService = {
       });
   },
   register: async (data) => {
-    console.log("register", data);
     return api
       .post("/register", data)
       .then(({ data }) => {
