@@ -2,7 +2,7 @@ import loginImage from "../../assets/images/login.svg";
 import "./auth.scss";
 import { Link } from "react-router-dom";
 import { useState } from "react";
-import axios from "axios";
+import { AuthService } from "../../services/authService";
 
 export const Login = () => {
   const [email, setEmail] = useState("");
@@ -10,14 +10,7 @@ export const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    await axios
-      .post("http://127.0.0.1:8000/login", { email: email, password: password })
-      .then((res) => {
-        console.log("res", res);
-      })
-      .catch((err) => {
-        console.error("error", err);
-      });
+    await AuthService.login({ email: email, password: password });
   };
 
   return (
