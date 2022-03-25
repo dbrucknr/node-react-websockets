@@ -2,15 +2,27 @@ import loginImage from "../../assets/images/login.svg";
 import "./auth.scss";
 import { Link } from "react-router-dom";
 import { useState } from "react";
-import { AuthService } from "../../services/authService";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { login } from "../../store/actions/auth";
 
 export const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    await AuthService.login({ email: email, password: password });
+    dispatch(
+      login(
+        {
+          email,
+          password,
+        },
+        navigate
+      )
+    );
   };
 
   return (
