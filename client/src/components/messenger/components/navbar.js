@@ -1,8 +1,10 @@
 import "./navbar.scss";
+import { Fragment } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useState } from "react";
 import { logout } from "../../../store/actions/auth";
+import { Modal } from "../../modal/modal";
 
 export const Navbar = () => {
   const [showOptions, setShowOptions] = useState(false);
@@ -24,6 +26,13 @@ export const Navbar = () => {
             <p onClick={() => dispatch(logout())}>Logout</p>
           </div>
         )}
+        {
+          <Modal>
+            <Fragment key="header">Modal Header</Fragment>
+            <Fragment key="body">Modal Body</Fragment>
+            <Fragment key="footer">Modal Footer</Fragment>
+          </Modal>
+        }
       </div>
     </div>
   );
