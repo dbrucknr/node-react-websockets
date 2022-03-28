@@ -2,6 +2,13 @@ const User = require("../models").User;
 const sequelize = require("sequelize");
 
 exports.update = async (req, res) => {
+  if (req.file) {
+    //   Add filename from Multer
+    req.body.avatar = req.file.filename;
+  }
+  if (typeof req.body.avatar !== undefined && req.body.avatar.length === 0) {
+    delete req.body.avatar;
+  }
   try {
     const [rows, result] = await User.update(req.body, {
       where: {
@@ -17,5 +24,4 @@ exports.update = async (req, res) => {
   } catch (error) {
     return res.status(500).json({ error: error });
   }
-  return res.send("User Controller");
 };
