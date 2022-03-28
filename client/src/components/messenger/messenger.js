@@ -10,6 +10,7 @@ export const Messenger = () => {
       <div id="chat-wrap">
         <h1>Messenger Screen</h1>
         <p>Dummy data</p>
+        <img src={user.avatar} alt="Avatar" />
       </div>
     </div>
   );

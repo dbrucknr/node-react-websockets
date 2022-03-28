@@ -30,6 +30,21 @@ export const AuthService = {
     localStorage.removeItem("user");
     localStorage.removeItem("token");
   },
+  updateProfile: async (data) => {
+    const headers = {
+      headers: { "Content-Type": "application/x-www-form-urlencoded" },
+    };
+    return api
+      .post("/users/update", data, headers)
+      .then(({ data }) => {
+        localStorage.setItem("user", JSON.stringify(data));
+        return data;
+      })
+      .catch((err) => {
+        console.error("User Service Error", err);
+        throw err;
+      });
+  },
 };
 
 const setHeadersandLocalStorage = ({ user, token }) => {
