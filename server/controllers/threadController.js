@@ -149,3 +149,17 @@ exports.messages = async (req, res) => {
 
   return res.json(result);
 };
+
+exports.deleteThread = async (req, res) => {
+  try {
+    const { id } = req.params;
+    await Thread.destroy({
+      where: {
+        id: id,
+      },
+    });
+    return res.json({ status: "Success", message: "Thread deleted" });
+  } catch (error) {
+    return res.status(500).json({ status: "Error", message: error.message });
+  }
+};
