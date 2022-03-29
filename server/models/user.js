@@ -12,6 +12,11 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      this.belongsToMany(models.Thread, {
+        through: "Participant",
+        foreignKey: "userId",
+      });
+      this.hasMany(models.Participant, { foreignKey: "userId" });
     }
   }
   User.init(
