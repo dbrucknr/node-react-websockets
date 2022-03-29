@@ -1,8 +1,5 @@
 import { AuthService } from "../../services/authService";
-export const LOGIN = "LOGIN";
-export const LOGOUT = "LOGOUT";
-export const REGISTER = "REGISTER";
-export const UPDATE_PROFILE = "UPDATE_PROFILE";
+import { LOGIN, REGISTER, LOGOUT, UPDATE_PROFILE } from "../types/index";
 
 export const login = (params, navigate) => async (dispatch) => {
   return AuthService.login(params)
@@ -29,7 +26,7 @@ export const register = (params, navigate) => async (dispatch) => {
     .catch((err) => console.error(err));
 };
 
-export const updateProfile = (params, navigate) => async (dispatch) => {
+export const updateProfile = (params) => async (dispatch) => {
   return AuthService.updateProfile(params)
     .then((data) => {
       console.log("update action", data);
