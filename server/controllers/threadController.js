@@ -27,6 +27,11 @@ exports.index = async (req, res) => {
           },
           {
             model: Message,
+            include: [
+              {
+                model: User,
+              },
+            ],
             limit: 20,
             order: [["id", "DESC"]],
           },
@@ -129,6 +134,11 @@ exports.messages = async (req, res) => {
     where: {
       threadId: req.query.id,
     },
+    include: [
+      {
+        model: User,
+      },
+    ],
     limit,
     offset,
   });
