@@ -2,7 +2,7 @@ import "./Friend.scss";
 import { useSelector } from "react-redux";
 import { userStatus } from "../../../../utils/helpers";
 
-export const Friend = ({ thread }) => {
+export const Friend = ({ thread, click }) => {
   const currentThread = useSelector(
     (state) => state.messengerReducer.currentThread
   );
@@ -15,7 +15,7 @@ export const Friend = ({ thread }) => {
     return message.type === "image" ? "Image Uploaded" : message.message;
   };
   return (
-    <div className={`friend-list ${isThreadOpened()}`}>
+    <div onClick={click} className={`friend-list ${isThreadOpened()}`}>
       <div>
         <img width="40" height="40" src={thread.Users[0].avatar} alt="Avatar" />
         <div className="friend-info">

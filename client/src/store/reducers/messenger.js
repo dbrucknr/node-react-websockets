@@ -1,4 +1,4 @@
-import { RETRIEVE_THREADS } from "../actions/messenger";
+import { RETRIEVE_THREADS, SET_CURRENT_THREAD } from "../actions/messenger";
 
 const initialState = {
   threads: [],
@@ -12,6 +12,11 @@ export const messengerReducer = (state = initialState, action) => {
       return {
         ...state,
         threads: payload,
+      };
+    case SET_CURRENT_THREAD:
+      return {
+        ...state,
+        currentThread: payload,
       };
     default: {
       return state;

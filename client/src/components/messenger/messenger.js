@@ -8,7 +8,7 @@ import "./messenger.scss";
 
 export const Messenger = () => {
   const dispatch = useDispatch();
-  const user = useSelector((state) => state.authReducer.user);
+  // const user = useSelector((state) => state.authReducer.user);
 
   useEffect(() => {
     dispatch(retrieveThreads());
