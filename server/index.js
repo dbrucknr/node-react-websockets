@@ -17,7 +17,14 @@ app.use(express.static(__dirname + "/public"));
 app.use(express.static(__dirname + "/uploads"));
 
 const server = http.createServer(app);
-SocketServer(server);
+SocketServer(server, {
+  cors: {
+    origin: "http://localhost:3000",
+    methods: "GET,POST,PUT,DELETE",
+    preflightContinue: false,
+    optionsSuccessStatus: 204,
+  },
+});
 
 server.listen(PORT, () => {
   console.log(`Server listening on port: ${PORT}`);

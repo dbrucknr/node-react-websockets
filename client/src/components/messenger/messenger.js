@@ -4,11 +4,14 @@ import { Navbar } from "./components/navbar";
 import { retrieveThreads } from "../../store/actions/messenger";
 import { FriendList } from "./components/friendList/friendList";
 import { MessageComposer } from "./components/messageComposer/messageComposer";
+import useSocket from "./hooks/socket";
 import "./messenger.scss";
 
 export const Messenger = () => {
   const dispatch = useDispatch();
-  // const user = useSelector((state) => state.authReducer.user);
+  const user = useSelector((state) => state.authReducer.user);
+
+  useSocket(user, dispatch);
 
   useEffect(() => {
     dispatch(retrieveThreads());
