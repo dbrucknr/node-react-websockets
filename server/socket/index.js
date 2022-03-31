@@ -1,12 +1,50 @@
+const e = require("cors");
 const socketIo = require("socket.io");
 const { sequelize } = require("../models");
 
 const users = new Map();
+const userSockets = new Map();
 
 const SocketServer = (server) => {
   const io = socketIo(server);
 
   io.on("connection", (socket) => {
+    socket.on("disconnect", async () => {
+      if (userSockets.has(socket.id)) {
+        const id = userSockets.get(socket.id);
+        const user = users.get(id);
+        if (user.sockets.length > 1) {
+          user.sockets = user.sockets.filter((sock) => {
+            if (sock !== socket.id) {
+              return true;
+            }
+            userSockets.delete(sock);
+            return false;
+          });
+          users.set(user.id, user);
+        } else {
+          // Notify friends user went offline
+          const chatters = await getChatters(user.id);
+
+          for (let i = 0; i < chatters.length; i++) {
+            if (users.has(chatters[i])) {
+              users.get(chatters[i]).sockets.forEach((socket) => {
+                try {
+                  io.to(socket).emit("offline", user);
+                } catch (error) {
+                  console.error(
+                    "Error notifying friends user came offline",
+                    error
+                  );
+                }
+              });
+            }
+          }
+          userSockets.delete(socket.id);
+          users.delete(user.id);
+        }
+      }
+    });
     socket.on("join", async (user) => {
       let sockets = [];
 
@@ -15,18 +53,20 @@ const SocketServer = (server) => {
         existingUser.sockets = [...existingUser.sockets, ...[socket.id]];
         users.set(user.id, existingUser);
         sockets = [...existingUser.sockets, ...[socket.id]];
+        userSockets.set(socket.id, user.id);
       } else {
         users.set(user.id, { id: user.id, sockets: [socket.id] });
         sockets.push(socket.id);
+        userSockets.set(socket.id, user.id);
       }
       const onlineFriends = []; // ids
       const chatters = await getChatters(user.id); // query
-      console.log("Chatters query results", chatters);
+
       // Notify friends that user is online.
       for (let i = 0; i < chatters.length; i++) {
         if (users.has(chatters[i])) {
-          const chatter = users.get(chatters[i].id);
-          chatters.sockets.forEach((socket) => {
+          const chatter = users.get(chatters[i]);
+          chatter.sockets.forEach((socket) => {
             try {
               io.to(socket).emit("online", user);
             } catch (error) {

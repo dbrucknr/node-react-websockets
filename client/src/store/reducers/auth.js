@@ -4,6 +4,11 @@ const initialState = {
   user: JSON.parse(localStorage.getItem("user")) || {},
   token: localStorage.getItem("token") || "",
   isLoggedIn: !!localStorage.getItem("user"),
+
+  // temporarily keep - log in as multiple users
+  // user: {},
+  // token: "",
+  // isLoggedIn: false,
 };
 
 export const authReducer = (state = initialState, action) => {
