@@ -8,39 +8,44 @@ const Participant = models.Participant;
 const Message = models.Message;
 
 exports.index = async (req, res) => {
-  // return all Threads sent to the user who calls this endpoint:
-  const user = await User.findOne({
-    where: {
-      id: req.user.id,
-    },
-    include: [
-      {
-        model: Thread,
+  try {
+    if (req.user.id) {
+      // return all Threads sent to the user who calls this endpoint:
+      const user = await User.findOne({
+        where: {
+          id: req.user.id,
+        },
         include: [
           {
-            model: User,
-            where: {
-              [Op.not]: {
-                id: req.user.id,
-              },
-            },
-          },
-          {
-            model: Message,
+            model: Thread,
             include: [
               {
                 model: User,
+                where: {
+                  [Op.not]: {
+                    id: req.user.id,
+                  },
+                },
+              },
+              {
+                model: Message,
+                include: [
+                  {
+                    model: User,
+                  },
+                ],
+                limit: 20,
+                order: [["id", "DESC"]],
               },
             ],
-            limit: 20,
-            order: [["id", "DESC"]],
           },
         ],
-      },
-    ],
-  });
-
-  return res.json(user.Threads);
+      });
+      return res.json(user.Threads);
+    } else {
+      return [];
+    }
+  } catch (error) {}
 };
 
 exports.create = async (req, res) => {
