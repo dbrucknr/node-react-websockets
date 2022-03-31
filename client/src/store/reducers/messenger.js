@@ -45,6 +45,64 @@ export const messengerReducer = (state = initialState, action) => {
         threads: threadsCopy,
       };
     }
+    case FRIEND_ONLINE: {
+      let currentThreadCopy = { ...state.currentThread };
+      const threadsCopy = state.threads.map((thread) => {
+        const Users = thread.Users.map((user) => {
+          if (user.id === parseInt(payload.id)) {
+            return {
+              ...user,
+              status: "online",
+            };
+          }
+          return user;
+        });
+        if (thread.id === currentThreadCopy.id) {
+          currentThreadCopy = {
+            ...currentThreadCopy,
+            Users,
+          };
+        }
+        return {
+          ...thread,
+          Users,
+        };
+      });
+      return {
+        ...state,
+        threads: threadsCopy,
+        currentThread: currentThreadCopy,
+      };
+    }
+    case FRIEND_OFFLINE: {
+      let currentThreadCopy = { ...state.currentThread };
+      const threadsCopy = state.threads.map((thread) => {
+        const Users = thread.Users.map((user) => {
+          if (user.id === parseInt(payload.id)) {
+            return {
+              ...user,
+              status: "offline",
+            };
+          }
+          return user;
+        });
+        if (thread.id === currentThreadCopy.id) {
+          currentThreadCopy = {
+            ...currentThreadCopy,
+            Users,
+          };
+        }
+        return {
+          ...thread,
+          Users,
+        };
+      });
+      return {
+        ...state,
+        threads: threadsCopy,
+        currentThread: currentThreadCopy,
+      };
+    }
     default: {
       return state;
     }
