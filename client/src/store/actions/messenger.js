@@ -5,6 +5,7 @@ export const SET_CURRENT_THREAD = "SET_CURRENT_THREAD";
 export const FRIENDS_ONLINE = "FRIENDS_ONLINE";
 export const FRIEND_ONLINE = "FRIEND_ONLINE";
 export const FRIEND_OFFLINE = "FRIEND_OFFLINE";
+export const SET_SOCKET = "SET_SOCKET";
 
 export const retrieveThreads = () => async (dispatch) => {
   return MessengerService.retrieveThreads()
@@ -38,4 +39,8 @@ export const onlineFriend = (friend) => async (dispatch) => {
 
 export const offlineFriend = (friend) => async (dispatch) => {
   dispatch({ type: FRIEND_OFFLINE, payload: friend });
+};
+
+export const setSocket = (socket) => async (dispatch) => {
+  dispatch({ type: SET_SOCKET, payload: socket });
 };

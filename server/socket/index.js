@@ -1,6 +1,7 @@
 const e = require("cors");
 const socketIo = require("socket.io");
 const { sequelize } = require("../models");
+const Message = require("../models").Message;
 
 const users = new Map();
 const userSockets = new Map();
@@ -13,6 +14,7 @@ const SocketServer = (server) => {
       if (userSockets.has(socket.id)) {
         const id = userSockets.get(socket.id);
         const user = users.get(id);
+
         if (user.sockets.length > 1) {
           user.sockets = user.sockets.filter((sock) => {
             if (sock !== socket.id) {
@@ -85,6 +87,41 @@ const SocketServer = (server) => {
         }
       });
       io.to(socket.id).emit("typing", "User typing...");
+    });
+    socket.on("message", async (message) => {
+      let sockets = []; // sockets to receive message
+
+      if (users.has(message.fromUser.id)) {
+        sockets = users.get(message.fromUser.id).sockets;
+      }
+
+      // Find and send to all users message needs to be sent
+      message.toUserId.forEach((id) => {
+        if (users.has(id)) {
+          sockets = [...sockets, ...users.get(id).sockets];
+        }
+      });
+
+      try {
+        const msg = {
+          type: message.type,
+          fromUserId: message.fromUser.id,
+          threadId: message.threadId,
+          message: message.message,
+        };
+
+        await Message.create(msg);
+
+        message.User = message.fromUser;
+        message.fromUserId = message.fromUser.id;
+        delete message.fromUser;
+
+        sockets.forEach((socket) => {
+          io.to(socket).emit("received", message);
+        });
+      } catch (error) {
+        console.error("Error Receiving Message", error);
+      }
     });
   });
 };

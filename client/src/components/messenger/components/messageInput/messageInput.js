@@ -8,6 +8,7 @@ export const MessageInput = ({ thread }) => {
   const [image, setImage] = useState("");
 
   const user = useSelector((state) => state.authReducer.user);
+  const socket = useSelector((state) => state.messengerReducer.socket);
 
   const handleMessage = (event) => {
     const value = event.target.value;
@@ -28,7 +29,7 @@ export const MessageInput = ({ thread }) => {
     }
     const msg = {
       type: imageUpload ? "image" : "text",
-      fromUserId: user.id,
+      fromUserId: user,
       receiverId: thread.Users.map((user) => user.id),
       threadId: thread.id,
       message: imageUpload ? image : message,
@@ -38,6 +39,7 @@ export const MessageInput = ({ thread }) => {
     setImage("");
 
     // Send Message with Socket
+    socket.emit("message", msg);
   };
 
   return (

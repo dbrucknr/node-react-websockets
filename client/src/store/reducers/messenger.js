@@ -4,11 +4,13 @@ import {
   FRIENDS_ONLINE,
   FRIEND_ONLINE,
   FRIEND_OFFLINE,
+  SET_SOCKET,
 } from "../actions/messenger";
 
 const initialState = {
   threads: [],
   currentThread: {},
+  socket: {},
 };
 
 export const messengerReducer = (state = initialState, action) => {
@@ -101,6 +103,12 @@ export const messengerReducer = (state = initialState, action) => {
         ...state,
         threads: threadsCopy,
         currentThread: currentThreadCopy,
+      };
+    }
+    case SET_SOCKET: {
+      return {
+        ...state,
+        socket: payload,
       };
     }
     default: {

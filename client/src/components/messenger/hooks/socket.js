@@ -5,6 +5,7 @@ import {
   onlineFriends,
   onlineFriend,
   offlineFriend,
+  setSocket,
 } from "../../../store/actions/messenger";
 
 function useSocket(user, dispatch) {
@@ -16,6 +17,8 @@ function useSocket(user, dispatch) {
           withCredentials: true,
           upgrade: false,
         });
+
+        dispatch(setSocket(socket));
 
         socket.emit("join", user);
 
