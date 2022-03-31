@@ -96,7 +96,7 @@ const SocketServer = (server) => {
       }
 
       // Find and send to all users message needs to be sent
-      message.toUserId.forEach((id) => {
+      message.receiverId.forEach((id) => {
         if (users.has(id)) {
           sockets = [...sockets, ...users.get(id).sockets];
         }
@@ -110,10 +110,11 @@ const SocketServer = (server) => {
           message: message.message,
         };
 
-        await Message.create(msg);
+        const savedMessage = await Message.create(msg);
 
         message.User = message.fromUser;
         message.fromUserId = message.fromUser.id;
+        message.id = savedMessage.id;
         delete message.fromUser;
 
         sockets.forEach((socket) => {

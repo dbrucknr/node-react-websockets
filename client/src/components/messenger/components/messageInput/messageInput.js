@@ -29,17 +29,16 @@ export const MessageInput = ({ thread }) => {
     }
     const msg = {
       type: imageUpload ? "image" : "text",
-      fromUserId: user,
+      fromUser: user,
       receiverId: thread.Users.map((user) => user.id),
       threadId: thread.id,
       message: imageUpload ? image : message,
     };
 
-    setMessage("");
-    setImage("");
-
     // Send Message with Socket
     socket.emit("message", msg);
+    setMessage("");
+    setImage("");
   };
 
   return (
