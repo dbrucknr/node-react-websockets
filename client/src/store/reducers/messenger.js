@@ -16,6 +16,8 @@ const messengerActionMap = {
   SET_CURRENT_THREAD: (state, payload) => ({
     ...state,
     currentThread: payload,
+    scrollBottom: state.scrollBottom + 1,
+    newMessage: { threadId: null, seen: null },
   }),
   FRIENDS_ONLINE: (state, payload) => ({
     ...friendsOnline(state, payload),
@@ -34,6 +36,8 @@ const messengerActionMap = {
 
 export const messengerReducer = (state = initialState, action) => {
   const { type, payload } = action;
+  console.log(state.scrollBottom);
+  console.log(state.currentThread);
   const handler = messengerActionMap[type];
   return handler ? handler(state, payload) : state;
 };
