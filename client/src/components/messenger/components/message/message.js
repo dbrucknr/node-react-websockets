@@ -9,6 +9,7 @@ export const Message = ({ user, thread, index, message }) => {
       ? "mb-5"
       : "mb-10";
   };
+
   return (
     <div
       className={`message ${determineMargin()} ${

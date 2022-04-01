@@ -19,7 +19,7 @@ export const retrieveThreads = () => async (dispatch) => {
         thread.Messages.reverse();
       });
       dispatch({ type: RETRIEVE_THREADS, payload: data });
-      return data;
+      // return data;
     })
     .catch((err) => {
       throw err;

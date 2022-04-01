@@ -6,9 +6,8 @@ import { MessageInput } from "../messageInput/messageInput";
 
 export const MessageComposer = () => {
   const thread = useSelector((state) => state.messengerReducer.currentThread);
-  const activeThread = () => {
-    return Object.keys(thread).length > 0;
-  };
+  const activeThread = () => Object.keys(thread).length > 0;
+
   return (
     <div id="messenger" className="shadow-light">
       {activeThread() ? (

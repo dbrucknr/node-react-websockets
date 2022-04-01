@@ -5,11 +5,10 @@ import { setCurrentThread } from "../../../../store/actions/messenger";
 
 export const FriendList = () => {
   const threads = useSelector((state) => state.messengerReducer.threads);
+  console.log("FriendList", threads);
   const dispatch = useDispatch();
+  const openThread = (thread) => dispatch(setCurrentThread(thread));
 
-  const openThread = (thread) => {
-    dispatch(setCurrentThread(thread));
-  };
   return (
     <div id="friends" className="shadow-light">
       <div id="title">

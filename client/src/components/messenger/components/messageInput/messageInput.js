@@ -49,6 +49,7 @@ export const MessageInput = ({ thread }) => {
           placeholder="Enter a Message"
           onChange={(e) => handleMessage(e)}
           onKeyDown={(e) => handleKeyDown(e, false)}
+          value={message || ""}
         />
         <FontAwesomeIcon icon={["far", "smile"]} className="fa-icon" />
       </div>

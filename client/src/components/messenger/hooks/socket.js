@@ -23,24 +23,13 @@ function useSocket(user, dispatch) {
 
         socket.emit("join", user);
 
-        socket.on("typing", (user) => {
-          console.log("Typing event", user);
-        });
+        socket.on("typing", (user) => console.log("Typing event", user));
 
-        socket.on("friends", (friends) => {
-          console.log("friends", friends);
-          dispatch(onlineFriends(friends));
-        });
+        socket.on("friends", (friends) => dispatch(onlineFriends(friends)));
 
-        socket.on("online", (user) => {
-          console.log("Online event", user);
-          dispatch(onlineFriend(user));
-        });
+        socket.on("online", (user) => dispatch(onlineFriend(user)));
 
-        socket.on("offline", (user) => {
-          console.log("Offline event", user);
-          dispatch(offlineFriend(user));
-        });
+        socket.on("offline", (user) => dispatch(offlineFriend(user)));
 
         socket.on("received", (message) => {
           dispatch(receivedMessage(message, user.id));
